@@ -1,0 +1,25 @@
+
+---
+- hosts: webservers
+  user: ansible
+  become: true
+  connection: ssh
+  tasks:
+ 
+    - name: Install Java on Host Machines
+      action: yum pkg=java state=present
+ 
+    - name: Install Python on Host Machines
+      action: yum pkg=python state=present
+ 
+    - name: Install MySQL on Host Machines
+      action: yum pkg=mysql state=present
+ 
+    - name: Start Python Server on Host Machines
+      action: service name=python state=started
+ 
+    - name: Stop Python Server on Host Machines
+      action: service name=python state=stopped
+ 
+    - name: Restart the Python Server on Host Machines
+      action: service name=python state=restarted
