@@ -51,3 +51,13 @@
     - name: Display Jenkins admin password
       debug:
         var: jenkinspass.stdout
+        
+    - name: Verify Java installation
+      command: java -version
+      register: java_check
+      ignore_errors: yes
+
+    - name: Check Jenkins service status
+      command: systemctl status jenkins
+      register: jenkins_status
+      ignore_errors: yes
