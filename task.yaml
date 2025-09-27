@@ -1,0 +1,44 @@
+---
+- name: Conditionally install packages if not present
+  hosts: webservers
+  become: yes
+  gather_facts: yes
+
+  tasks:
+
+    - name: Check if Git is installed
+      command: which git
+      register: git_check
+      ignore_errors: yes
+
+    - name: Install Git if not present
+      yum:
+        name: git
+        state: present
+      when: git_check.rc != 0
+
+    - name: Check if Java is installed
+      command: java -version
+      register: java_check
+      ignore_errors: yes
+
+    - name: Install Java if not present
+      yum:
+        name: java-1.8.0-openjdk
+        state: present
+      when: java_check.rc != 0
+
+    - name: Check if Python is installed
+      command: which python3
+      register: python_check
+      ignore_errors: yes
+
+    - name: Install Python if not present
+      yum:
+        name: python3
+        state: present
+      when: python_check.rc != 0
+
+    - name: Continue with next task
+      debug:
+        msg: "All required packages are now installed."
